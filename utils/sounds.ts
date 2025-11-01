@@ -4,7 +4,6 @@ import {
   ambientVolume as defaultAmbientVolume,
 } from "@/constants/sounds";
 
-// Создаём звуки
 export const ambient = new Howl({
   src: ["/sounds/ambient.mp3"],
   volume: defaultAmbientVolume,
@@ -41,13 +40,11 @@ export const cat = new Howl({
   volume: defaultVolume,
 });
 
-// Удобная функция воспроизведения
 export const playSound = (sound: Howl) => {
   sound.stop();
   sound.play();
 };
 
-// Собираем все звуки для управления
 export const sceneSounds: Record<string, Howl> = {
   bookPage,
   cauldronBubbling,
@@ -56,9 +53,7 @@ export const sceneSounds: Record<string, Howl> = {
   door,
   cat,
 };
-
-// Функция для глобального изменения громкости
 export const setGlobalVolume = (v: number) => {
   Object.values(sceneSounds).forEach((sound) => sound.volume(v));
-  ambient.volume(v * 0.1); // фон тише
+  ambient.volume(v * 0.1);
 };
