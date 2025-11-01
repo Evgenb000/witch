@@ -12,9 +12,28 @@ interface Props {
 
 export default function SceneContent({ current, className }: Props) {
   const scene = scenes[current];
-  const lines = useMemo(() => scene?.text.split("\n") ?? [], [scene]);
+  const lines = useMemo(() => (scene ? scene.text.split("\n") : []), [scene]);
 
   if (!scene) return null;
+
+  const roles: Record<string, { color: string; glow: string }> = {
+    "[Witch]": {
+      color: "text-pink-300",
+      glow: "drop-shadow-[0_0_8px_rgba(255,150,200,0.5)]",
+    },
+    "[Raven]": {
+      color: "text-indigo-300",
+      glow: "drop-shadow-[0_0_8px_rgba(150,150,255,0.4)]",
+    },
+    "[Cat]": {
+      color: "text-amber-300",
+      glow: "drop-shadow-[0_0_8px_rgba(255,200,120,0.4)]",
+    },
+    "[Narrator]": {
+      color: "text-gray-400 italic",
+      glow: "opacity-70",
+    },
+  };
 
   return (
     <div className={cn(className)}>
@@ -25,7 +44,7 @@ export default function SceneContent({ current, className }: Props) {
         exit={{ opacity: 0, y: -30 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         className={cn(
-          "relative mx-auto max-w-3xl rounded-2xl bg-black/70 backdrop-blur-sm border border-white/10 p-8 shadow-[0_0_25px_-5px_rgba(120,80,200,0.3)] space-y-6 text-gray-100"
+          "relative mx-auto max-w-3xl overflow-hidden rounded-2xl bg-black/70 backdrop-blur-sm border border-white/10 p-8 shadow-[0_0_25px_-5px_rgba(120,80,200,0.3)] space-y-6 text-gray-100"
         )}
       >
         <motion.h2
@@ -39,34 +58,16 @@ export default function SceneContent({ current, className }: Props) {
 
         <div className="max-w-2xl mx-auto leading-relaxed space-y-4">
           {lines.map((line, i) => {
-            const isAuthor = line.startsWith("[Автор]");
-            const isWitch = line.startsWith("[Ведьма]");
-            const isRaven = line.startsWith("[Ворон]");
-            const isCat =
-              line.startsWith("[Кот]") || line.startsWith("[Кошка]");
-
-            let color = "text-gray-300";
-            let glow = "";
-            if (isWitch) {
-              color = "text-pink-300";
-              glow = "drop-shadow-[0_0_8px_rgba(255,150,200,0.5)]";
-            } else if (isRaven) {
-              color = "text-indigo-300";
-              glow = "drop-shadow-[0_0_8px_rgba(150,150,255,0.4)]";
-            } else if (isCat) {
-              color = "text-amber-300";
-              glow = "drop-shadow-[0_0_8px_rgba(255,200,120,0.4)]";
-            } else if (isAuthor) {
-              color = "text-gray-400 italic";
-              glow = "opacity-70";
-            }
+            const role = Object.entries(roles).find(([key]) =>
+              line.startsWith(key)
+            )?.[1] ?? { color: "text-gray-300", glow: "" };
 
             const clean = line.replace(/^\[.*?\]\s*/, "");
 
             return (
               <motion.p
-                key={i}
-                className={`${color} ${glow} whitespace-pre-line text-lg font-light`}
+                key={`${scene.id}-${i}`}
+                className={`${role.color} ${role.glow} whitespace-pre-line text-lg font-light`}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 + i * 0.2, duration: 0.6 }}

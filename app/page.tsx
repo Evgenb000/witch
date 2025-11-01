@@ -39,14 +39,12 @@ export default function WitchHouse() {
         setAmbientToggle={setAmbientToggle}
       />
 
-      {loading
-        ? null
-        : entrance && (
-            <Scene
-              getActiveBlockIndex={getActiveBlockIndex}
-              scrollProgress={scrollProgress}
-            />
-          )}
+      {!loading && entrance && (
+        <Scene
+          getActiveBlockIndex={getActiveBlockIndex}
+          scrollProgress={scrollProgress}
+        />
+      )}
     </div>
   );
 }

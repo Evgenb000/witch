@@ -26,6 +26,7 @@ export const Hero: React.FC<HeroProps> = ({
       return () => clearTimeout(timer);
     }
   }, [loading]);
+
   const handleEnter = () => {
     setEntering(true);
     door.play();
@@ -46,7 +47,7 @@ export const Hero: React.FC<HeroProps> = ({
         className={`absolute inset-0 bg-[url('@/public/door.png')] bg-cover bg-center transition-transform duration-1500 ${
           entering ? "scale-150" : "scale-100"
         }`}
-      ></div>
+      />
 
       <Fireflies />
 
@@ -55,14 +56,21 @@ export const Hero: React.FC<HeroProps> = ({
       {!loading && showButton && !entering && (
         <button
           onClick={handleEnter}
-          className="mt-8 px-8 py-4 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-lg shadow-lg transition-all duration-500 opacity-0 animate-fadeIn cursor-pointer z-30"
+          className="mt-10 px-10 py-4 rounded-2xl bg-black/70 backdrop-blur-sm border border-white/10 
+                     text-purple-300 font-semibold text-lg shadow-[0_0_25px_-5px_rgba(120,80,200,0.3)]
+                     hover:bg-purple-700/30 hover:scale-105 hover:shadow-[0_0_30px_rgba(180,100,255,0.6)]
+                     transition-all duration-700 ease-out cursor-pointer z-30 animate-fadeIn"
         >
-          Войти в дом
+          Enter the House
         </button>
       )}
 
-      <h1 className="relative text-4xl md:text-6xl font-black text-white drop-shadow-lg text-center z-30">
-        Добро пожаловать в дом ведьмы
+      <h1
+        className="relative text-5xl md:text-7xl font-bold text-purple-300 
+                   drop-shadow-[0_0_12px_rgba(180,100,255,0.6)] text-center z-30 
+                   tracking-wide animate-fadeInSlow"
+      >
+        Welcome to the Witch’s House
       </h1>
     </section>
   );
