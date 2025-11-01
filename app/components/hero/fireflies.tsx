@@ -15,7 +15,7 @@ export const Fireflies = () => {
   useEffect(() => {
     const initParticles = () => {
       setParticles(
-        [...Array(20)].map(() => ({
+        [...Array(30)].map(() => ({
           size: Math.random() * 3 + 1,
           top: Math.random() * 100,
           left: Math.random() * 100,

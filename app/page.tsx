@@ -4,17 +4,21 @@ import { useSceneProgress } from "@/hooks/useSceneProgress";
 import { Scene } from "./components/scene";
 import { useCameraController } from "@/hooks/useCameraController";
 import { useSketchfab } from "@/hooks/useSketchfab";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Hero } from "./components/hero";
+import { ambient } from "@/utils/sounds";
 
 export default function WitchHouse() {
   const { handleApiReady } = useCameraController();
   const { scrollProgress, getActiveBlockIndex } = useSceneProgress();
   const { iframeRef, loading } = useSketchfab(handleApiReady);
   const [entrance, setEntrance] = useState(false);
+  const [ambientToggle, setAmbientToggle] = useState(false);
 
-  console.log("loading", loading);
-  console.log("entrance", entrance);
+  useEffect(() => {
+    if (ambientToggle) ambient.play();
+    else ambient.stop();
+  }, [ambientToggle]);
 
   return (
     <div className="relative bg-black text-white overflow-x-hidden">
@@ -29,7 +33,11 @@ export default function WitchHouse() {
         />
       </div>
 
-      <Hero loading={loading} setEntrance={setEntrance} />
+      <Hero
+        loading={loading}
+        setEntrance={setEntrance}
+        setAmbientToggle={setAmbientToggle}
+      />
 
       {loading
         ? null

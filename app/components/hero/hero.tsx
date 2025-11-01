@@ -3,13 +3,19 @@
 import React, { useState, useEffect } from "react";
 import { SpinnerLoading } from "../spinnerLoading";
 import { Fireflies } from "./fireflies";
+import { door } from "@/utils/sounds";
 
 interface HeroProps {
   loading: boolean;
   setEntrance: React.Dispatch<React.SetStateAction<boolean>>;
+  setAmbientToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Hero: React.FC<HeroProps> = ({ loading, setEntrance }) => {
+export const Hero: React.FC<HeroProps> = ({
+  loading,
+  setEntrance,
+  setAmbientToggle,
+}) => {
   const [showButton, setShowButton] = useState(false);
   const [entering, setEntering] = useState(false);
   const [zoomDone, setZoomDone] = useState(false);
@@ -22,9 +28,11 @@ export const Hero: React.FC<HeroProps> = ({ loading, setEntrance }) => {
   }, [loading]);
   const handleEnter = () => {
     setEntering(true);
+    door.play();
     setTimeout(() => {
       setZoomDone(true);
       setEntrance(true);
+      setAmbientToggle(true);
     }, 500);
   };
 

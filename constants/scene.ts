@@ -1,8 +1,24 @@
+import {
+  crow,
+  cat,
+  cauldronBubbling,
+  bookPage,
+  crystallBall,
+} from "@/utils/sounds";
+
 export type Scene = {
   id: number;
   title: string;
   scene: string;
   text: string;
+};
+
+export const sceneSounds: Record<number, Howl> = {
+  1: crow,
+  2: cat,
+  3: cauldronBubbling,
+  4: bookPage,
+  5: crystallBall,
 };
 
 export const scenes: Scene[] = [
